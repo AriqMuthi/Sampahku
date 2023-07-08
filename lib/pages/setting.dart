@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sampahku/pages/list.dart';
+import 'package:sampahku/bloc/logout_bloc.dart';
+import 'package:sampahku/pages/update.dart';
+import 'login.dart';
 
 class Setting extends StatefulWidget {
   const Setting({super.key});
@@ -32,8 +34,8 @@ class _SettingState extends State<Setting> {
                 ]),
           ),
           SizedBox(
-            height: 400,
-            child: ListView(
+            height: 450,
+            child: Column(
               children: [
                 UserAccountsDrawerHeader(
                   accountName: Text("Ariq Muthi .A",
@@ -51,18 +53,38 @@ class _SettingState extends State<Setting> {
                       borderRadius: BorderRadius.circular(10),
                       color: Colors.white),
                   child: Column(
-                    children: const [
+                    children: [
                       ListTile(
                           title: Text("Riwayat Transaksi"),
                           leading: Icon(Icons.history)),
+                      Divider(),
                       ListTile(
                           title: Text("Pembritahuan"),
                           leading: Icon(Icons.notifications)),
+                      Divider(),
                       ListTile(
-                          title: Text("Pengaturan"),
-                          leading: Icon(Icons.settings)),
+                        title: Text("Pengaturan"),
+                        leading: Icon(Icons.settings),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const update()));
+                        },
+                      ),
+                      Divider(),
                       ListTile(
-                          title: Text("Keluar"), leading: Icon(Icons.logout)),
+                        title: Text("Keluar"),
+                        leading: Icon(Icons.logout),
+                        onTap: () {
+                          LogoutBloc.logout();
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => LoginPage()),
+                              (Route<dynamic> route) => false);
+                        },
+                      ),
                     ],
                   ),
                 )

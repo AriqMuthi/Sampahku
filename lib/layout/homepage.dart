@@ -12,10 +12,11 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-  @override
   int _currentindex = 0;
+
   List<Widget> body = const [Home(), Lists(), Setting()];
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: const Color(0xff012970),

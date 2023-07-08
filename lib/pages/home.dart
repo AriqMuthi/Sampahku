@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sampahku/pages/setting.dart';
+import '../helpers/user_info.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -9,6 +9,11 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  Future<String?> getPoints() async {
+    var point = await UserInfo().getPoint();
+    return point;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +46,7 @@ class _HomeState extends State<Home> {
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
+                          children: [
                             Text(
                               'Koin ',
                               style: TextStyle(
@@ -51,12 +56,25 @@ class _HomeState extends State<Home> {
                             Icon(Icons.paid)
                           ],
                         ),
-                        const Text(
-                          '1000',
-                          style: TextStyle(
-                            fontSize: 48,
-                          ),
-                        )
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            FutureBuilder(
+                                future: getPoints(),
+                                builder: ((context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return const Center(
+                                        child: CircularProgressIndicator());
+                                  } else {
+                                    return Text(
+                                      snapshot.data.toString(),
+                                      style: const TextStyle(fontSize: 34),
+                                    );
+                                  }
+                                }))
+                          ],
+                        ),
                       ],
                     )),
                 Row(
